@@ -60,6 +60,7 @@ class BlogPostControllerTest extends WebTestCase
         $titleEl = $crawler->filter('h3 a')->eq(1);
         $titleText = $titleEl->text();
         $titleLink = $titleEl->link();
+        
         $this->client->click($titleLink);
 
         $this->assertEquals(
