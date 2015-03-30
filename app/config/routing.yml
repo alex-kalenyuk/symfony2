@@ -1,0 +1,18 @@
+acme_blog:
+    resource: "@AcmeBlogBundle/Resources/config/routing.yml"
+    prefix:   /blog
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+login:
+    path:   /login
+    defaults: {_controller: AcmeBlogBundle:User:login}
+
+login_check:
+    path:   /login_check
+    defaults: {_controller: AcmeBlogBundle:User:login_check}
+
+logout:
+    path:   /logout

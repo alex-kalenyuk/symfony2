@@ -1,0 +1,35 @@
+{% extends "AcmeBlogBundle::layout.html.twig" %}
+
+{% block body %}
+    {% for flashMsg in app.session.flashbag.get('notice') %}
+        <div class="alert alert-info" role="alert">
+            {{ flashMsg }}
+        </div>
+    {% endfor %}
+
+    <a href="{{ path('user_create') }}" class="btn btn-primary">Create new user</a> <br>
+    <div class="col-sm-4">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.name }}</td>
+                        <td>
+                            <a href="{{ path('user_edit', {'id': user.id}) }}">Edit</a>
+                            &nbsp;
+                            <a href="{{ path('user_delete', {'id': user.id, 'token': token}) }}">Del</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td>No user found</td><td></td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
