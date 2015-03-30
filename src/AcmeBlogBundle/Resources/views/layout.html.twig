@@ -1,0 +1,32 @@
+{% extends "::base.html.twig" %}
+
+{% block head %}
+    <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+{% endblock %}
+
+{% block title 'Blog Bundle' %}
+
+{% block nav %}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    {% if app.user and is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li><a href="{{ path('blog_post_index') }}">Posts</a></li>
+                        <li><a href="{{ path('user_index') }}">Users</a></li>
+                        <li><a href="{{ path('logout') }}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{{ path('login_route') }}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
+{% endblock %}
+
+{% block body %}
+    Body
+{% endblock %}
