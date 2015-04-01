@@ -2,42 +2,11 @@
 
 namespace TrainingBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Bundle\FrameworkBundle\Client;
-
-class BlogPostControllerTest extends WebTestCase
+class BlogPostControllerTest extends BaseWebTestCase
 {
-    /**
-     * @var Client
-     */
-    public $client;
-
-    public function setUp()
-    {
-        $this->client = static::createClient();
-    }
-
     public function testIndex()
     {
-        $this->client->request('GET', '/blog/');
-        $crawler = $this->client->followRedirect();
-
-        $this->assertEquals(
-            1,
-            $crawler->filter('a:contains("Login")')->count()
-        );
-
-        $buttonCrawlerNode = $crawler->selectButton('Login');
-        $form = $buttonCrawlerNode->form([
-            "_username" => 'email2@mail.com',
-            "_password" => 'qwezxc',
-        ]);
-        $this->client->submit($form);
-
-        $this->assertTrue(
-            $this->client->getResponse()->isRedirect()
-        );
-        $crawler = $this->client->followRedirect();
+        $crawler = $this->login();
 
         $this->assertEquals(
             1,

@@ -36,6 +36,6 @@ class BlogPostType extends AbstractType
      */
     public function getName()
     {
-        return 'acmeblogbundle_blogpost';
+        return 'trainingbundle_blogpost';
     }
 }
