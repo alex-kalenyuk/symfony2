@@ -3,6 +3,7 @@
 namespace TrainingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * BlogPost
@@ -15,6 +16,7 @@ class BlogPost
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="title", type="string", length=100, nullable=false)
      */
     private $title;
@@ -22,6 +24,7 @@ class BlogPost
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="content", type="text", nullable=false)
      */
     private $content;
