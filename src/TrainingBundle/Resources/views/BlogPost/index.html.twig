@@ -1,0 +1,15 @@
+{% extends "TrainingBundle::layout.html.twig" %}
+
+{% block body %}
+    <div class="col-sm-8">
+        <a href="{{ path('blog_post_create') }}" class="btn btn-primary">Create new post</a> <br>
+    {% for post in posts %}
+        <div>
+            <h3>
+                <a href="{{ path('blog_post_show', {'id': post.id}) }}">{{ post.title }}</a>
+            </h3>
+            <div>{{ post.content }}</div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

@@ -4,7 +4,7 @@ security:
     # http://symfony.com/doc/current/book/security.html#encoding-the-user-s-password
     encoders:
 #        Symfony\Component\Security\Core\User\User: plaintext
-        AcmeBlogBundle\Entity\User:
+        TrainingBundle\Entity\User:
             algorithm: bcrypt
             cost: 10
     # http://symfony.com/doc/current/book/security.html#hierarchical-roles
@@ -16,7 +16,7 @@ security:
     providers:
         our_db_provider:
             entity:
-                class: AcmeBlogBundle:User
+                class: TrainingBundle:User
 #    providers:
 #        in_memory:
 #            memory:

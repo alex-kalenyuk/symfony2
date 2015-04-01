@@ -1,0 +1,10 @@
+{% extends "TrainingBundle::layout.html.twig" %}
+{% form_theme postForm 'form/fields.html.twig' %}
+
+{% block body %}
+    <div class="col-sm-4">
+    {{ form_start(postForm, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_widget(postForm) }}
+    {{ form_end(postForm) }}
+    </div>
+{% endblock %}

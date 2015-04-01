@@ -1,0 +1,13 @@
+training_blog:
+    path:     /
+    defaults: { _controller: TrainingBundle:BlogPost:index }
+
+training_blog_post:
+    resource: "@TrainingBundle/Controller/BlogPostController.php"
+    type:     annotation
+    prefix:   /post
+
+training_user:
+    resource: "@TrainingBundle/Controller/UserController.php"
+    type:     annotation
+    prefix:   /user

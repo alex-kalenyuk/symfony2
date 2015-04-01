@@ -1,5 +1,5 @@
-acme_blog:
-    resource: "@AcmeBlogBundle/Resources/config/routing.yml"
+training_blog:
+    resource: "@TrainingBundle/Resources/config/routing.yml"
     prefix:   /blog
 
 app:
@@ -8,11 +8,11 @@ app:
 
 login:
     path:   /login
-    defaults: {_controller: AcmeBlogBundle:User:login}
+    defaults: {_controller: TrainingBundle:User:login}
 
 login_check:
     path:   /login_check
-    defaults: {_controller: AcmeBlogBundle:User:login_check}
+    defaults: {_controller: TrainingBundle:User:login_check}
 
 logout:
     path:   /logout
