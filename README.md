@@ -1,4 +1,5 @@
 symfony2
 ========
 
-A Symfony project created on March 24, 2015, 12:56 pm.
+Training Symfony project. 
+All code which written by me is inside TrainingBundle
