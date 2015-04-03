@@ -1,4 +1,12 @@
 services:
     training_blog.string_calculator_kata:
         class: TrainingBundle\Services\StringCalculatorKata
-#        arguments: [@service_id, "plain_value", %parameter%]
+    kernel.listener.request_listener:
+        class: TrainingBundle\EventListener\RequestListener
+        tags:
+          - {name: kernel.event_listener, event: kernel.request, method: onKernelRequest}
+    kernel.listener.response_listener:
+        class: TrainingBundle\EventListener\ResponseListener
+        arguments: [@service_container]
+        tags:
+          - {name: kernel.event_listener, event: kernel.response, method: onKernelResponse}
