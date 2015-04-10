@@ -71,14 +71,20 @@ class BlogPostController extends Controller
 
         $commentForm->handleRequest($request);
 
-        if ($commentForm->isValid()) {
+        if ($request->isXmlHttpRequest() && $commentForm->isValid()) {
             $em->persist($commentForm->getData());
             $em->flush();
 
             $this->pushNewComment($commentEntity->getDataArray());
 
-            $this->addFlash('notice', 'Your comment was added');
-            return $this->redirectToRoute('blog_post_show', ['id' => $id], 301);
+            $html = $this->renderView(
+                'TrainingBundle:BlogPost:comment.html.twig',
+                ['comment' => $commentEntity->getDataArray()]
+            );
+            return new JsonResponse(['html'=>$html]);
+
+//            $this->addFlash('notice', 'Your comment was added');
+//            return $this->redirectToRoute('blog_post_show', ['id' => $id], 301);
         }
         $comments = $em->getRepository('TrainingBundle:BlogComment')->findByPost($post);
 
