@@ -10,3 +10,5 @@ services:
         arguments: [@service_container]
         tags:
           - {name: kernel.event_listener, event: kernel.response, method: onKernelResponse}
+    training_blog.chat:
+        class: TrainingBundle\Services\Chat

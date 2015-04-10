@@ -25,17 +25,32 @@
             </div>
         </div>
 
-        <div>
+        <div id="comment-box">
             {% for comment in comments %}
-                <div>
-                    <p>
-                        <b>Author: </b>{{ comment.author }} <br>
-                        <b>Comment: </b>{{ comment.content }}
-                    </p>
-                </div>
+                {{ include('TrainingBundle:BlogPost:comment.html.twig', { 'comment': comment }) }}
             {% else %}
                 <div>No comments found</div>
             {% endfor %}
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
+    <script>
+        var conn = new ab.Session('ws://localhost:8080',
+                function() {
+                    conn.subscribe('newComment', function(topic, data) {
+                        // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                        $('#comment-box').append(data.html);
+                    });
+                },
+                function() {
+                    console.warn('WebSocket connection closed');
+                },
+                {'skipSubprotocolCheck': true}
+        );
+    </script>
+    {#<script type="text/javascript" src="{{ '/bundles/training/js/socket.js' }}"></script>#}
 {% endblock %}

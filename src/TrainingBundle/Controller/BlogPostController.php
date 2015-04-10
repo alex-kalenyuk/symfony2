@@ -2,6 +2,7 @@
 
 namespace TrainingBundle\Controller;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use TrainingBundle\Entity\BlogComment;
 use TrainingBundle\Entity\BlogPost;
 use TrainingBundle\Form\BlogCommentType;
@@ -74,6 +75,8 @@ class BlogPostController extends Controller
             $em->persist($commentForm->getData());
             $em->flush();
 
+            $this->pushNewComment($commentEntity->getDataArray());
+
             $this->addFlash('notice', 'Your comment was added');
             return $this->redirectToRoute('blog_post_show', ['id' => $id], 301);
         }
@@ -84,5 +87,14 @@ class BlogPostController extends Controller
             'comments' => $comments,
             'commentForm' => $commentForm->createView()
         ];
+    }
+
+    public function pushNewComment($data)
+    {
+        $html = $this->renderView('TrainingBundle:BlogPost:comment.html.twig', ['comment' => $data]);
+        $context = new \ZMQContext();
+        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'comment pusher');
+        $socket->connect("tcp://localhost:5555");
+        $socket->send(json_encode(['html'=>$html]));
     }
 }

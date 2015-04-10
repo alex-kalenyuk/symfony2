@@ -159,4 +159,18 @@ class BlogComment
     {
         return $this->post;
     }
+
+    public function encodeJson()
+    {
+        return json_encode(
+            get_object_vars($this),
+            0, //options
+            2 //depth
+        );
+    }
+
+    public function getDataArray()
+    {
+        return get_object_vars($this);
+    }
 }
