@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new TrainingBundle\TrainingBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Ztec\Security\ActiveDirectoryBundle\ZtecSecurityActiveDirectoryBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -4,8 +4,54 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "519a050b8d35828db5a5f7cbf4d02430",
+    "hash": "81c28646e58882eabea83fc14e42d791",
     "packages": [
+        {
+            "name": "adldap/adldap",
+            "version": "v4.0-stable",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ztec/adLDAP.git",
+                "reference": "43bca164cde8f5a98e054e1aea53406aa3b805cc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ztec/adLDAP/zipball/43bca164cde8f5a98e054e1aea53406aa3b805cc",
+                "reference": "43bca164cde8f5a98e054e1aea53406aa3b805cc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.4"
+            },
+            "suggest": {
+                "ext-ldap": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "adLDAP": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GNU"
+            ],
+            "authors": [
+                {
+                    "name": "Richard Hyland",
+                    "email": "adldap@richardhyland.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "adLDAP, low-level library to query Active directory",
+            "homepage": "http://adldap.sourceforge.net",
+            "keywords": [
+                "active directory",
+                "ldap",
+                "windows"
+            ],
+            "time": "2013-08-29 14:08:57"
+        },
         {
             "name": "cboden/ratchet",
             "version": "v0.3.2",
@@ -2199,6 +2245,51 @@
                 "templating"
             ],
             "time": "2015-01-25 17:32:08"
+        },
+        {
+            "name": "ztec/security-active_directory",
+            "version": "dev-master",
+            "target-dir": "Ztec/Security/ActiveDirectoryBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ztec/ZtecSecurityActiveDirectoryBundle.git",
+                "reference": "315857a44533dda6d9ec023d6c4808daf5aa500e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ztec/ZtecSecurityActiveDirectoryBundle/zipball/315857a44533dda6d9ec023d6c4808daf5aa500e",
+                "reference": "315857a44533dda6d9ec023d6c4808daf5aa500e",
+                "shasum": ""
+            },
+            "require": {
+                "adldap/adldap": "v4.0-stable",
+                "php": ">=5.2.4"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Ztec\\Security\\ActiveDirectoryBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "CC-BY"
+            ],
+            "authors": [
+                {
+                    "name": "Loïc Doubinine",
+                    "email": "ztec@riper.fr"
+                }
+            ],
+            "description": "This is a bundle to allow authentication into symfony >= 2.1 by an Active directory",
+            "homepage": "https://github.com/ztec/security-active_directory",
+            "keywords": [
+                "active directory",
+                "bundle",
+                "ldap",
+                "symfony"
+            ],
+            "time": "2014-11-17 12:44:05"
         }
     ],
     "packages-dev": [
@@ -2255,7 +2346,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "doctrine/migrations": 20,
-        "doctrine/doctrine-migrations-bundle": 20
+        "doctrine/doctrine-migrations-bundle": 20,
+        "ztec/security-active_directory": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -31,7 +31,19 @@ class UserController extends Controller
      */
     public function loginAction(Request $request)
     {
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+//        $ldap = ldap_connect("levi9.com", 389);
+//        if ($bind = ldap_bind($ldap, 'o.kaleniuk@levi9.com', 'myDate0608')) {
+//            //die('strange');
+//            ldap_set_option ($ldap, LDAP_OPT_REFERRALS, 0);
+//            ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+//            $sr = ldap_search($ldap, "ou=Levi9,dc=levi9,dc=com", "(&(objectClass=user)(objectCategory=person)(samaccountname=o.kaleniuk))", ["cn", "dn"]);
+//            $info = ldap_get_entries($ldap, $sr);
+//            var_dump($info);
+//          die('logged in');
+//        } else {
+//          die('fail');
+//        }
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('blog_post_index');
         }
 

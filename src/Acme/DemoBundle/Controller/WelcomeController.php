@@ -13,7 +13,7 @@ class WelcomeController extends Controller
          * or @Template annotation as demonstrated in DemoController.
          *
          */
-
+        $user = $this->getUser();
         return $this->render('AcmeDemoBundle:Welcome:index.html.twig');
     }
 }
