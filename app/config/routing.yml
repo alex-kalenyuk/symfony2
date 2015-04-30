@@ -16,3 +16,6 @@ login_check:
 
 logout:
     path:   /logout
+    
+imag_ldap:
+  resource: "@IMAGLdapBundle/Resources/config/routing.yml"

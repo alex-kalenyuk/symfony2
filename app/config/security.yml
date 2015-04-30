@@ -7,6 +7,7 @@ security:
         TrainingBundle\Entity\User:
             algorithm: bcrypt
             cost: 10
+        IMAG\LdapBundle\User\LdapUser: plaintext
     # http://symfony.com/doc/current/book/security.html#hierarchical-roles
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
@@ -17,6 +18,8 @@ security:
         our_db_provider:
             entity:
                 class: TrainingBundle:User
+        ldap:
+            id: imag_ldap.security.user.provider
 #    providers:
 #        in_memory:
 #            memory:
@@ -34,7 +37,7 @@ security:
         default:
             anonymous:  ~
             http_basic: ~
-            provider: our_db_provider
+            provider: ldap
             form_login:
                 login_path: /login
                 check_path: /login_check
@@ -78,3 +81,4 @@ security:
         - { path: ^/blog, roles: ROLE_USER }
 #        - { path: ^/demo/secured/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 #        - { path: ^/, roles: ROLE_ADMIN }
+

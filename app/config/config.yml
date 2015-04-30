@@ -77,3 +77,28 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+imag_ldap:
+    client:
+        host: levi9.com
+        port: 389
+        version: 3
+    #    username: foo # Optional
+    #    password: bar # Optional
+    #    network_timeout: 10 # Optional
+        referrals_enabled: false
+        #bind_username_before: true
+        skip_roles: true
+
+    user:
+        base_dn: ou=Levi9,dc=levi9,dc=com
+    #    filter: (&(foo=bar)(ObjectClass=Person)) #Optional
+        name_attribute: sAMAccountName
+    role:
+        base_dn: dc=levi9,dc=com
+#      #    filter: (ou=group) #Optional
+#          name_attribute: cn
+#          user_attribute: member
+#          user_id: [ dn or username ]
+
+#    user_class: IMAG\LdapBundle\User\LdapUser
