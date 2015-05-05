@@ -22,9 +22,11 @@ class ResponseListener
         ) {
             $response = $event->getResponse();
             $content = $response->getContent();
-
+            
             $pos = strripos($content, '<body>');
-            $content = substr($content, 0, $pos)."You are authenticated".substr($content, $pos);
+            $user = $this->container->get('security.token_storage')->getToken()->getUser();
+            $logInNote = "You are authenticated as " . $user->getUsername();
+            $content = substr($content, 0, $pos) . $logInNote . substr($content, $pos);
             $response->setContent($content);
         }
     }
