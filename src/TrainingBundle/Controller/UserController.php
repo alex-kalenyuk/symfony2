@@ -18,7 +18,7 @@ class UserController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $token = $this->get('form.csrf_provider')->generateCsrfToken('user_index');;
+        $token = $this->get('form.csrf_provider')->generateCsrfToken('user_index');
 
         return [
             'users' => $em->getRepository('TrainingBundle:User')->findAll(),
@@ -157,13 +157,14 @@ class UserController extends Controller
     public function syncAction(Request $request)
     {
         $adLdap = $this->get('ztec.security.active.directory.service.adldap')->getInstance();
-        $authProvider = $this->get('security.authentication.provider.ztec.active_directory.default');
+//        $authProvider = $this->get('security.authentication.provider.ztec.active_directory.default');
 //        $token = $this->container->get('security.token_storage');
 //        $credentials = $token->getCredentials();
-//        $isAD = $adLdap->authenticate(
-//            $this->getUser()->getUsername(), 
-//            "myDate0608"
-//        );
+        $user = $this->getUser();
+        $isAD = $adLdap->authenticate(
+            $this->getUser()->getUsername(), 
+            $this->getUser()->getPassword()
+        );
         $users = $adLdap->user()->all();
         
         if (1==1) {
