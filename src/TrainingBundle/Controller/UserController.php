@@ -150,4 +150,28 @@ class UserController extends Controller
 
         return $this->redirectToRoute('user_index');
     }
+
+    /**
+     * @Route("/sync", name="user_create")
+     */
+    public function syncAction(Request $request)
+    {
+        $adLdap = $this->get('ztec.security.active.directory.service.adldap')->getInstance();
+        $authProvider = $this->get('security.authentication.provider.ztec.active_directory.default');
+//        $token = $this->container->get('security.token_storage');
+//        $credentials = $token->getCredentials();
+//        $isAD = $adLdap->authenticate(
+//            $this->getUser()->getUsername(), 
+//            "myDate0608"
+//        );
+        $users = $adLdap->user()->all();
+        
+        if (1==1) {
+            $this->addFlash('notice', 'Data was synchronized successfully');
+        } else {
+            $this->addFlash('notice', 'Synchronization failed');
+        }
+
+        return $this->redirectToRoute('user_index');
+    }
 }
