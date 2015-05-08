@@ -5,10 +5,10 @@ namespace TrainingBundle\Security\User;
 class adUserCustom extends \Ztec\Security\ActiveDirectoryBundle\Security\User\adUser
 {
     /** @var string */
-    private $sid;
+    private $guid;
     
-    public function setSID($value)
+    public function setGUID($value)
     {
-        $this->sid = $value;
+        $this->guid = $value;
     }
 }

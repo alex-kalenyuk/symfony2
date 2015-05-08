@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use adLDAP\adLDAP;
 
 class UserController extends Controller
 {
@@ -31,18 +32,6 @@ class UserController extends Controller
      */
     public function loginAction(Request $request)
     {
-//        $ldap = ldap_connect("levi9.com", 389);
-//        if ($bind = ldap_bind($ldap, 'o.kaleniuk@levi9.com', 'myDate0608')) {
-//            //die('strange');
-//            ldap_set_option ($ldap, LDAP_OPT_REFERRALS, 0);
-//            ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-//            $sr = ldap_search($ldap, "ou=Levi9,dc=levi9,dc=com", "(&(objectClass=user)(objectCategory=person)(samaccountname=o.kaleniuk))", ["cn", "dn"]);
-//            $info = ldap_get_entries($ldap, $sr);
-//            var_dump($info);
-//          die('logged in');
-//        } else {
-//          die('fail');
-//        }
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('blog_post_index');
         }
@@ -157,20 +146,48 @@ class UserController extends Controller
     public function syncAction(Request $request)
     {
         $adLdap = $this->get('ztec.security.active.directory.service.adldap')->getInstance();
-//        $authProvider = $this->get('security.authentication.provider.ztec.active_directory.default');
-//        $token = $this->container->get('security.token_storage');
-//        $credentials = $token->getCredentials();
-        $user = $this->getUser();
-        $isAD = $adLdap->authenticate(
+        if ($adLdap->authenticate(
             $this->getUser()->getUsername(), 
             $this->getUser()->getPassword()
-        );
-        $users = $adLdap->user()->all();
-        
-        if (1==1) {
+        )) {
+            $userRepository = $this->getDoctrine()->getManager()->getRepository('TrainingBundle:User');
+            $filter = "(&(objectClass=user)(samaccounttype=" . adLDAP::ADLDAP_NORMAL_ACCOUNT .")(objectCategory=person)(cn=*))";
+            $fields = array("samaccountname", "displayname", "mail", "objectGUID", "objectSid", "userprincipalname", "title", "manager");
+            $sr = ldap_search($adLdap->getLdapConnection(), $adLdap->getBaseDn(), $filter, $fields);
+            $entries = ldap_get_entries($adLdap->getLdapConnection(), $sr);
+
+            for ($i=0; $i<$entries["count"]; $i++) {
+                $guid = $adLdap->utilities()->decodeGuid($entries[$i]["objectguid"][0]);
+                if (!isset($entries[$i]["mail"])) {
+                    $entries[$i]["mail"] = $entries[$i]["userprincipalname"];
+                }       
+                $title = isset($entries[$i]["title"]) 
+                        ? $entries[$i]["title"][0]
+                        : NULL;         
+                $managerId = isset($entries[$i]["manager"]) 
+                        ? $userRepository->findManagerGUID($adLdap, $entries[$i]["manager"][0])
+                        : NULL;
+                $this->getDoctrine()->getEntityManager()
+                    ->getConnection()
+                    ->executeQuery(
+                        'INSERT INTO user(id, name, email, title, manager_id) 
+                            VALUES(:id, :name, :email, :title, :manager_id)
+                            ON DUPLICATE KEY UPDATE name=VALUES(name), title=VALUES(title), manager_id=VALUES(manager_id)',
+                        [
+                            'id' => $guid, 
+                            'name' => $entries[$i]["displayname"][0],
+                            'email' => $entries[$i]["mail"][0],
+                            'title' => $title,
+                            'manager_id' => $managerId,
+                        ]
+                    );
+            }
+            
+            
+            
             $this->addFlash('notice', 'Data was synchronized successfully');
         } else {
-            $this->addFlash('notice', 'Synchronization failed');
+            $this->addFlash('notice', 'Synchronization failed');    
         }
 
         return $this->redirectToRoute('user_index');

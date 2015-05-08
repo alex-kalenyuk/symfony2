@@ -16,7 +16,21 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields="email", groups={"create", "update"})
  */
 class User implements UserInterface, \Serializable
-{    
+{      
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
+     */
+    private $title;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="manager_id", type="string", length=255, nullable=true)
+     */
+    private $manager_id;
+    
     /**
      * @var string
      *
@@ -37,30 +51,65 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @Assert\NotBlank()
      * @Assert\Length(min=6, max=4096)
-     * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     * @ORM\Column(name="password", type="string", length=255, nullable=true)
      */
     private $password;
-    
-    /**
-     * @var string
-     *
-     * @Assert\NotBlank(groups={"create", "update"})
-     * @ORM\Column(name="sid", type="string", length=255, nullable=false)
-     */
-    private $sid;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="string", length=255)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return User
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
 
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set manager_id
+     *
+     * @param string $manager_id
+     * @return User
+     */
+    public function setManagerId($manager_id)
+    {
+        $this->manager_id = $manager_id;
+
+        return $this;
+    }
+
+    /**
+     * Get manager_id
+     *
+     * @return string 
+     */
+    public function getManagerId()
+    {
+        return $this->manager_id;
+    }
 
     /**
      * Set name

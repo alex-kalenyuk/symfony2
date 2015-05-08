@@ -2,12 +2,12 @@
 
 namespace TrainingBundle\Entity;
 
-
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use adLDAP\adLDAP;
 
 class UserRepository extends EntityRepository implements UserProviderInterface
 {
@@ -49,5 +49,17 @@ class UserRepository extends EntityRepository implements UserProviderInterface
     {
         return $this->getEntityName() === $class
         || is_subclass_of($class, $this->getEntityName());
+    }    
+    
+    public function findManagerGUID($adLdap, $dn)
+    {
+        $filter = "(&(objectClass=user)(samaccounttype=" . adLDAP::ADLDAP_NORMAL_ACCOUNT .")(objectCategory=person)(distinguishedname=".$dn."))";
+        $sr = ldap_search($adLdap->getLdapConnection(), $adLdap->getBaseDn(), $filter, ["objectGUID"]);
+        $entries = ldap_get_entries($adLdap->getLdapConnection(), $sr);
+        if (isset($entries["count"]) && $entries["count"] > 0) {
+            return $adLdap->utilities()->decodeGuid($entries[0]["objectguid"][0]);
+        }
+        
+        return NULL;
     }
 }

@@ -67,8 +67,7 @@ class adUserProviderCustom extends adUserProvider
 
             $adUser->setDisplayName($user->displayName);
             $adUser->setEmail($user->mail);
-            $adLDAPUtils = new \adLDAP\classes\adLDAPUtils($adLdap);
-            $adUser->setSID($adLDAPUtils->getTextSID($user->objectsid));
+            $adUser->setGUID($adLdap->utilities()->decodeGuid($user->objectguid));
             $adUser->setPassword($token->getCredentials());
             
             return true;
