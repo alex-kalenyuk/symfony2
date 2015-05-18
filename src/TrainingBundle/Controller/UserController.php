@@ -183,8 +183,6 @@ class UserController extends Controller
                     );
             }
             
-            
-            
             $this->addFlash('notice', 'Data was synchronized successfully');
         } else {
             $this->addFlash('notice', 'Synchronization failed');    
